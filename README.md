@@ -1,2 +1,3 @@
 # go-dorics
-Web Spider for dorics using colly framework
+
+Web Spider for [dorics](dorics.com) using [colly](https://github.com/gocolly/colly) framework
