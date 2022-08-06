@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/gocolly/colly/v2"
@@ -15,6 +16,8 @@ func getURL(link string) string {
 
 func main() {
 	urlList := map[string]struct{}{}
+	cueerntURL := ""
+	board := []*Score{}
 	urlList[getURL("/bk_league/383/p.1?type=ended_race")] = struct{}{}
 
 	c := colly.NewCollector()
@@ -24,6 +27,7 @@ func main() {
 
 	c.OnHTML(".raceItem table", func(e *colly.HTMLElement) {
 		count := 0
+		score := &Score{}
 		e.ForEach("tr th", func(index int, e *colly.HTMLElement) {
 			if strings.TrimSpace(e.Text) == "实际" {
 				count = index
@@ -32,15 +36,24 @@ func main() {
 
 		e.ForEach(".body-font-color", func(index int, e *colly.HTMLElement) {
 			fmt.Println("Team:", e.Text)
+			if index%2 == 0 {
+				score.AwayTeam = strings.TrimSpace(e.Text)
+			} else {
+				score.HomeTeam = strings.TrimSpace(e.Text)
+			}
 		})
 
 		e.ForEach("tbody tr:nth-child(1)", func(index int, e *colly.HTMLElement) {
 			e.ForEach("tbody tr td:nth-child("+fmt.Sprintf("%d", (count+1))+")", func(index int, e *colly.HTMLElement) {
 				fmt.Println("(全场)初盘:", strings.TrimSpace(e.Text))
+				score.InitialValue = strings.TrimSpace(e.Text)
 			})
 
 			e.ForEach("tbody tr td:nth-child("+fmt.Sprintf("%d", (count+2))+")", func(index int, e *colly.HTMLElement) {
 				fmt.Println("实际:", strings.TrimSpace(e.Text))
+				score.FinalValue = strings.TrimSpace(e.Text)
+				score.URL = cueerntURL
+				board = append(board, score)
 			})
 		})
 	})
@@ -58,8 +71,13 @@ func main() {
 	// Before making a request print "Visiting ..."
 	c.OnRequest(func(r *colly.Request) {
 		r.Headers.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36")
-		fmt.Println("Visiting", r.URL.String())
+		cueerntURL = r.URL.String()
+		fmt.Println("Visiting", cueerntURL)
 	})
 
 	c.Visit(host + "/bk_league/383/p.1?type=ended_race") // Visit 要放最後
+
+	for _, v := range board {
+		log.Printf("%#v\n", v)
+	}
 }
