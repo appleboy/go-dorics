@@ -15,10 +15,8 @@ func getURL(link string) string {
 }
 
 func main() {
-	urlList := map[string]struct{}{}
 	cueerntURL := ""
 	board := []*Score{}
-	urlList[getURL("/bk_league/383/p.1?type=ended_race")] = struct{}{}
 
 	c := colly.NewCollector()
 
@@ -61,11 +59,7 @@ func main() {
 	// On every a element which has href attribute call callback
 	c.OnHTML("li a.data-url", func(e *colly.HTMLElement) {
 		link := getURL(e.Attr("data-url"))
-		if _, ok := urlList[link]; !ok {
-			urlList[link] = struct{}{}
-			// Visit link found on page on a new thread
-			e.Request.Visit(link)
-		}
+		e.Request.Visit(link)
 	})
 
 	// Before making a request print "Visiting ..."
@@ -75,7 +69,7 @@ func main() {
 		fmt.Println("Visiting", cueerntURL)
 	})
 
-	c.Visit(host + "/bk_league/383/p.1?type=ended_race") // Visit 要放最後
+	c.Visit(getURL("/bk_league/383/p.1?type=ended_race")) // Visit 要放最後
 
 	for _, v := range board {
 		log.Printf("%#v\n", v)
