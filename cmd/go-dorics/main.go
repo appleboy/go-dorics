@@ -5,6 +5,8 @@ import (
 	"log"
 	"strings"
 
+	"github.com/appleboy/go-dorics/pkg/analytic"
+
 	"github.com/gocolly/colly/v2"
 )
 
@@ -16,8 +18,8 @@ func getURL(link string) string {
 
 func main() {
 	cueerntURL := ""
-	board := &Board{
-		AllScore: []*Score{},
+	board := &analytic.Board{
+		AllScore: []*analytic.Score{},
 	}
 
 	c := colly.NewCollector()
@@ -32,7 +34,7 @@ func main() {
 
 	c.OnHTML(".raceItem table", func(e *colly.HTMLElement) {
 		count := 0
-		score := &Score{}
+		score := &analytic.Score{}
 		e.ForEach("tr th", func(index int, e *colly.HTMLElement) {
 			if strings.TrimSpace(e.Text) == "实际" {
 				count = index

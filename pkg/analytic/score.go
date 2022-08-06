@@ -1,8 +1,6 @@
-package main
+package analytic
 
-import (
-	"strconv"
-)
+import "strconv"
 
 type Score struct {
 	AwayTeam     string
@@ -39,9 +37,4 @@ func (s *Score) Outlier() bool {
 	}
 
 	return false
-}
-
-type Board struct {
-	Title    string
-	AllScore []*Score
 }
