@@ -7,3 +7,8 @@ type Score struct {
 	FinalValue   string
 	URL          string
 }
+
+type Board struct {
+	Title    string
+	AllScore []*Score
+}

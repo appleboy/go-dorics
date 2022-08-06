@@ -16,11 +16,18 @@ func getURL(link string) string {
 
 func main() {
 	cueerntURL := ""
-	board := []*Score{}
+	board := &Board{
+		AllScore: []*Score{},
+	}
 
 	c := colly.NewCollector()
 
 	c.OnResponse(func(r *colly.Response) {
+	})
+
+	c.OnHTML("title", func(e *colly.HTMLElement) {
+		fmt.Println(strings.TrimSpace(e.Text))
+		board.Title = strings.TrimSpace(e.Text)
 	})
 
 	c.OnHTML(".raceItem table", func(e *colly.HTMLElement) {
@@ -51,7 +58,7 @@ func main() {
 				fmt.Println("实际:", strings.TrimSpace(e.Text))
 				score.FinalValue = strings.TrimSpace(e.Text)
 				score.URL = cueerntURL
-				board = append(board, score)
+				board.AllScore = append(board.AllScore, score)
 			})
 		})
 	})
@@ -71,7 +78,7 @@ func main() {
 
 	c.Visit(getURL("/bk_league/383/p.1?type=ended_race")) // Visit 要放最後
 
-	for _, v := range board {
+	for _, v := range board.AllScore {
 		log.Printf("%#v\n", v)
 	}
 }
