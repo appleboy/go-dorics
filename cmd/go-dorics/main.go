@@ -27,7 +27,7 @@ func main() {
 	})
 
 	c.OnHTML("title", func(e *colly.HTMLElement) {
-		fmt.Println(strings.TrimSpace(e.Text))
+		// fmt.Println(strings.TrimSpace(e.Text))
 		board.Title = strings.TrimSpace(e.Text)
 	})
 
@@ -41,7 +41,7 @@ func main() {
 		})
 
 		e.ForEach(".body-font-color", func(index int, e *colly.HTMLElement) {
-			fmt.Println("Team:", e.Text)
+			// fmt.Println("Team:", e.Text)
 			if index%2 == 0 {
 				score.AwayTeam = strings.TrimSpace(e.Text)
 			} else {
@@ -51,12 +51,12 @@ func main() {
 
 		e.ForEach("tbody tr:nth-child(1)", func(index int, e *colly.HTMLElement) {
 			e.ForEach("tbody tr td:nth-child("+fmt.Sprintf("%d", (count+1))+")", func(index int, e *colly.HTMLElement) {
-				fmt.Println("(全场)初盘:", strings.TrimSpace(e.Text))
+				// fmt.Println("(全场)初盘:", strings.TrimSpace(e.Text))
 				score.InitialValue = strings.TrimSpace(e.Text)
 			})
 
 			e.ForEach("tbody tr td:nth-child("+fmt.Sprintf("%d", (count+2))+")", func(index int, e *colly.HTMLElement) {
-				fmt.Println("实际:", strings.TrimSpace(e.Text))
+				// fmt.Println("实际:", strings.TrimSpace(e.Text))
 				score.FinalValue = strings.TrimSpace(e.Text)
 				score.URL = cueerntURL
 				board.AllScore = append(board.AllScore, score)
@@ -77,7 +77,7 @@ func main() {
 		fmt.Println("Visiting", cueerntURL)
 	})
 
-	c.Visit(getURL("/bk_league/1114/p.1?type=ended_race")) // Visit 要放最後
+	c.Visit(getURL("/bk_league/383/p.1?type=ended_race")) // Visit 要放最後
 
 	for _, v := range board.Export() {
 		fmt.Println()
