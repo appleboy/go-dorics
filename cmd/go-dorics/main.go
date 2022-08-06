@@ -79,10 +79,9 @@ func main() {
 
 	c.Visit(getURL("/bk_league/1114/p.1?type=ended_race")) // Visit 要放最後
 
-	board.Output()
-	for i, v := range board.Data {
+	for _, v := range board.Export() {
 		fmt.Println()
-		fmt.Println("score type:", i, "Outrange Count:", len(v.OutrangeList), "Outlier Count:", len(v.OutlierList))
+		fmt.Println("score type:", v.Score, "Outrange Count:", len(v.OutrangeList), "Outlier Count:", len(v.OutlierList))
 		fmt.Println("======Outrange Start=========")
 		for _, o := range v.OutrangeList {
 			fmt.Printf("%s vs %s\n", o.AwayTeam, o.HomeTeam)
