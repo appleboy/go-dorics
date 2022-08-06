@@ -1,6 +1,8 @@
 package main
 
-import "strconv"
+import (
+	"strconv"
+)
 
 type Score struct {
 	AwayTeam     string
@@ -8,26 +10,35 @@ type Score struct {
 	InitialValue string
 	FinalValue   string
 	URL          string
-	IsOutlier    bool
 }
 
-func (s *Score) Outlier() {
+func (s *Score) Outrange() bool {
+	initial, _ := strconv.ParseFloat(s.InitialValue, 64)
+
+	if initial >= 28 || initial <= -28 {
+		return true
+	}
+
+	return false
+}
+
+func (s *Score) Outlier() bool {
 	initial, _ := strconv.ParseFloat(s.InitialValue, 64)
 	final, _ := strconv.ParseFloat(s.FinalValue, 64)
 	if initial > 0 && final > 0 {
-		return
+		return false
 	}
 
 	if initial < 0 && final < 0 {
-		return
+		return false
 	}
 
 	if (initial >= 28 && final < 0) ||
-		(initial <= 28 && final > 0) {
-		s.IsOutlier = true
+		(initial <= -28 && final > 0) {
+		return true
 	}
 
-	return
+	return false
 }
 
 type Board struct {
