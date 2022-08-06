@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/appleboy/go-dorics/pkg/analytic"
@@ -78,9 +77,23 @@ func main() {
 		fmt.Println("Visiting", cueerntURL)
 	})
 
-	c.Visit(getURL("/bk_league/383/p.1?type=ended_race")) // Visit 要放最後
+	c.Visit(getURL("/bk_league/1114/p.1?type=ended_race")) // Visit 要放最後
 
-	for _, v := range board.AllScore {
-		log.Printf("%#v\n", v)
+	board.Output()
+	for i, v := range board.Data {
+		fmt.Println()
+		fmt.Println("score type:", i, "Outrange Count:", len(v.OutrangeList), "Outlier Count:", len(v.OutlierList))
+		fmt.Println("======Outrange Start=========")
+		for _, o := range v.OutrangeList {
+			fmt.Printf("%s vs %s\n", o.AwayTeam, o.HomeTeam)
+		}
+		fmt.Println("======Outrange End=========")
+		if len(v.OutlierList) > 0 {
+			fmt.Println("======Outlier Start=========")
+			for _, o := range v.OutlierList {
+				fmt.Printf("%s vs %s\n", o.AwayTeam, o.HomeTeam)
+			}
+			fmt.Println("======Outlier End=========")
+		}
 	}
 }
