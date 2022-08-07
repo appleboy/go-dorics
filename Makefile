@@ -1,6 +1,6 @@
 DIST := dist
 EXECUTABLE := go-dorics
-GOFMT ?= gofumpt -l -s
+GOFMT ?= gofumpt -l
 DIST := dist
 DIST_DIRS := $(DIST)/binaries $(DIST)/release
 GO ?= go
@@ -48,7 +48,7 @@ else
 	ifneq ($(DRONE_BRANCH),)
 		VERSION ?= $(subst release/v,,$(DRONE_BRANCH))
 	else
-		VERSION ?= master
+		VERSION ?= main
 	endif
 
 	STORED_VERSION=$(shell cat $(STORED_VERSION_FILE) 2>/dev/null)
@@ -60,7 +60,7 @@ else
 endif
 
 TAGS ?=
-LDFLAGS ?= -X 'main.Version=$(VERSION)'
+LDFLAGS ?= -X 'main.Version=$(RELASE_VERSION)'
 
 all: build
 
@@ -154,4 +154,4 @@ clean:
 	rm -rf coverage.txt $(EXECUTABLE) $(DIST)
 
 version:
-	@echo $(VERSION)
+	@echo $(RELASE_VERSION)
