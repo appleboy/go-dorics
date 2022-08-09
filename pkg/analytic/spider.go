@@ -16,6 +16,7 @@ func getURL(link string) string {
 func Spider(bk string) *Board {
 	cueerntURL := ""
 	board := &Board{
+		ID:       bk,
 		AllScore: []*Score{},
 	}
 

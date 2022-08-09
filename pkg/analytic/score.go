@@ -13,7 +13,7 @@ type Score struct {
 func (s *Score) Outrange() bool {
 	initial, _ := strconv.ParseFloat(s.InitialValue, 64)
 
-	if initial >= 26 || initial <= -26 {
+	if initial >= 24 || initial <= -24 {
 		return true
 	}
 
@@ -31,8 +31,8 @@ func (s *Score) Outlier() bool {
 		return false
 	}
 
-	if (initial >= 26 && final < 0) ||
-		(initial <= -26 && final > 0) {
+	if (initial >= 24 && final < 0) ||
+		(initial <= -24 && final > 0) {
 		return true
 	}
 

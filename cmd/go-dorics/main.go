@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	board := analytic.Spider("111")
+	board := analytic.Spider("254")
 	scoreTyes := []interface{}{}
 	scoreCounts := []interface{}{}
 	scoreExceptCounts := []interface{}{}
@@ -31,7 +31,6 @@ func main() {
 			fmt.Println("======Outlier Start=========")
 			for _, o := range v.OutlierList {
 				fmt.Printf("%s vs %s\n", o.AwayTeam, o.HomeTeam)
-				excepts = append(excepts, fmt.Sprintf("%s vs %s (%s)", o.AwayTeam, o.HomeTeam, o.URL))
 				excepts = append(excepts, fmt.Sprintf("%s vs %s (%s)", o.AwayTeam, o.HomeTeam, o.URL))
 			}
 			fmt.Println("======Outlier End=========")
