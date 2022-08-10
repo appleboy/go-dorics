@@ -3,6 +3,7 @@ module github.com/appleboy/go-dorics
 go 1.18
 
 require (
+	github.com/appleboy/com v0.1.6
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/xuri/excelize/v2 v2.6.0
 )

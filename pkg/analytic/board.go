@@ -2,7 +2,6 @@ package analytic
 
 import (
 	"fmt"
-	"path"
 	"sort"
 	"strconv"
 	"strings"
@@ -64,7 +63,7 @@ func (b *Board) Export() []*Excel {
 	return data
 }
 
-func (b *Board) Excel(folder string) error {
+func (b *Board) Excel(out string) error {
 	scoreTyes := []interface{}{}
 	scoreCounts := []interface{}{}
 	scoreExceptCounts := []interface{}{}
@@ -82,8 +81,6 @@ func (b *Board) Excel(folder string) error {
 		scoreExceptDetails = append(scoreExceptDetails, strings.Join(excepts, " and "))
 	}
 
-	output := path.Join(folder, b.ID+".xlsx")
-
 	f := excelize.NewFile()
 	// Create a new sheet.
 	index := f.NewSheet("Sheet1")
@@ -100,5 +97,5 @@ func (b *Board) Excel(folder string) error {
 	// Set active sheet of the workbook.
 	f.SetActiveSheet(index)
 	// Save spreadsheet by the given path.
-	return f.SaveAs(output)
+	return f.SaveAs(out)
 }
