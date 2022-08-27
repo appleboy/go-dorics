@@ -12,6 +12,28 @@ builds:
     # Default is `.`.
     main: ./cmd/go-dorics
 
+    # Custom environment variables to be set during the builds.
+    # Default is empty.
+    env:
+      - CGO_ENABLED=0
+
+    # GOOS list to build for.
+    # For more info refer to: https://golang.org/doc/install/source#environment
+    # Defaults are darwin and linux.
+    goos:
+      - freebsd
+      - windows
+      - darwin
+      - linux
+
+    # GOARCH to build for.
+    # For more info refer to: https://golang.org/doc/install/source#environment
+    # Defaults are 386, amd64 and arm64.
+    goarch:
+      - amd64
+      - arm
+      - arm64
+
 changelog:
   # Set it to true if you wish to skip the changelog generation.
   # This may result in an empty release notes on GitHub/GitLab/Gitea.
